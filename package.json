@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/Elzair/native-module.git"
+    "url": "git://github.com/Palsson123/native-module.git"
   },
   "keywords": [
     "gyp",
@@ -19,7 +19,7 @@
   "license": "MIT",
   "gypfile": true,
   "bugs": {
-    "url": "https://github.com/Elzair/native-module/issues"
+    "url": "https://github.com/Palsson123/native-module/issues"
   },
-  "homepage": "https://github.com/Elzair/native-module"
+  "homepage": "https://github.com/Palsson123/native-module"
 }
