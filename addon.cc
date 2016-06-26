@@ -133,7 +133,6 @@ void Write(const FunctionCallbackInfo<Value>& args) {
     dev->devfd = open(path, O_RDWR);
 
     char length = 1;
-    unsigned long recv = 0;
     msg.tx_buf = (unsigned long) &data;
     msg.rx_buf = 0;
     msg.speed_hz = 7000000;
