@@ -95,35 +95,6 @@ struct _spi {
     mraa_adv_func_t* advance_func; /**< override function table */
     /*@}*/
 };
-int send()
-{
-    
-
-    mraa_spi_context dev = (mraa_spi_context) calloc(1, sizeof(struct _spi));
-
-    char data = 0x55;
-
-    struct spi_ioc_transfer msg;
-    memset(&msg, 0, sizeof(msg));
-
-    char path[64];
-    sprintf(path, "/dev/spidev%u.%u", 32766,1);
-
-    dev->devfd = open(path, O_RDWR);
-
-    char length = 1;
-    unsigned long recv = 0;
-    msg.tx_buf = (unsigned long) &data;
-    msg.rx_buf = 0;
-    msg.speed_hz = 7000000;
-    msg.bits_per_word = 8;
-    msg.delay_usecs = 0;
-    msg.len = length;
-    if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
-    }	
-
-    return 0;
-}
 void Write(const FunctionCallbackInfo<Value>& args) {
     Isolate* isolate = args.GetIsolate();
     // Make sure there is an argument.
