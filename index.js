@@ -5,7 +5,8 @@ var hello     = require('./hello')
   , funfac    = require('./funfac')
   , objfac    = require('./objfac')
   ;
-
+module.exports = addon;
+/*
 console.log(hello.hello());
 console.log('This should be eight: ' + addon.add(3,5));
 
@@ -26,3 +27,4 @@ var obja = objfac.createObject(10);
 var objb = objfac.createObject(20);
 var result = objfac.add(obja, objb);
 console.log('Object Factory Result: ' + result);
+*/
