@@ -120,7 +120,7 @@ void Write(const FunctionCallbackInfo<Value>& args) {
     std::vector<int> values;
     Local<Array> input = Local<Array>::Cast(args[0]);
     unsigned int numValues = input->Length();
-        printf("Number of array elements: %d\n",numValues);
+        //printf("Number of array elements: %d\n",numValues);
     
 
     for (unsigned int i = 0; i < numValues; i++) {
