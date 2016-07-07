@@ -122,7 +122,7 @@ void Write(const FunctionCallbackInfo<Value>& args) {
     unsigned int numValues = input->Length();
         //printf("Number of array elements: %d\n",numValues);
     
-
+    msg.rx_buf = 0; // Block SPI from reading anything.
     for (unsigned int i = 0; i < numValues; i++) {
             data = (char)input->Get(i)->NumberValue();
           if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
@@ -132,7 +132,38 @@ void Write(const FunctionCallbackInfo<Value>& args) {
         args.GetReturnValue().Set(true);
 
 }
+void WriteRead(const FunctionCallbackInfo<Value>& args) {
+    Isolate* isolate = args.GetIsolate();
+    // Make sure there is an argument.
+    if (args.Length() != 1) {
+        isolate->ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, "Need an argument")));
+        return;
+    }
 
+    // Make sure it's an array.
+    if (! args[0]->IsArray()) {
+        isolate->ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, "First argument needs to be an array")));
+        return;
+    }
+
+    // Unpack JS array into a std::vector
+    std::vector<int> values;
+    Local<Array> input = Local<Array>::Cast(args[0]);
+    unsigned int numValues = input->Length();
+        //printf("Number of array elements: %d\n",numValues);
+    char rx=0;
+    msg.rx_buf = (unsigned long) &rx; // Block SPI from reading anything.
+    for (unsigned int i = 0; i < numValues; i++) {
+            data = (char)input->Get(i)->NumberValue();
+          if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
+         }	
+        //printf("Value: %d", (int)input->Get(i)->NumberValue());
+    }
+        args.GetReturnValue().Set(rx);
+
+}
 void Add(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
