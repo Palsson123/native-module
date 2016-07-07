@@ -208,6 +208,8 @@ void Init(Handle<Object> exports) {
     
   NODE_SET_METHOD(exports, "add", Add);
   NODE_SET_METHOD(exports, "write", Write);
+  NODE_SET_METHOD(exports, "writeread", WriteRead);
+  
 }
 
 NODE_MODULE(addon, Init);
