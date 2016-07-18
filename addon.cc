@@ -168,7 +168,7 @@ void WriteRead(const FunctionCallbackInfo<Value>& args) {
     char rx=0;
     msg.rx_buf = (unsigned long) &rx; // Block SPI from reading anything.
     for (unsigned int i = 0; i < numValues; i++) {
-            data = (char)input->Get(i)->NumberValue();
+            data[0] = (char)input->Get(i)->NumberValue();
           if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
          }	
         //printf("Value: %d", (int)input->Get(i)->NumberValue());
