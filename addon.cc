@@ -167,6 +167,7 @@ void WriteRead(const FunctionCallbackInfo<Value>& args) {
         //printf("Number of array elements: %d\n",numValues);
     char rx=0;
     msg.rx_buf = (unsigned long) &rx; // Block SPI from reading anything.
+    msg.len=1;
     for (unsigned int i = 0; i < numValues; i++) {
             data[0] = (char)input->Get(i)->NumberValue();
           if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
