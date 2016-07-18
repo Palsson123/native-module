@@ -140,6 +140,7 @@ void Write(const FunctionCallbackInfo<Value>& args) {
         msg.len = counter;   
          if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
          }	
+         counter=0;
     }
         args.GetReturnValue().Set(true);
 
