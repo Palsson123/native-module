@@ -97,7 +97,7 @@ struct _spi {
 };
 
 mraa_spi_context dev;
-char data;
+char data[32];
 char counter=0;
 struct spi_ioc_transfer msg;
 
@@ -124,16 +124,24 @@ void Write(const FunctionCallbackInfo<Value>& args) {
         //printf("Number of array elements: %d\n",numValues);
     
     msg.rx_buf = 0; // Block SPI from reading anything.
-    
+    msg.len = 32;
     for (unsigned int i = 0; i < numValues; i++) {
             
-            data = (char)input->Get(i)->NumberValue();
-            
+            data[counter++] = (char)input->Get(i)->NumberValue();
+            if(counter == 32)
+            {
               if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
              }	
-            
+             counter=0;
+            }
     }
-    
+    if(counter!=0)
+    {
+        msg.len = counter;   
+         if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
+         }	
+         counter=0;
+    }
         args.GetReturnValue().Set(true);
 
 }
@@ -162,7 +170,7 @@ void WriteRead(const FunctionCallbackInfo<Value>& args) {
     msg.rx_buf = (unsigned long) &rx; // Block SPI from reading anything.
     msg.len=1;
     for (unsigned int i = 0; i < numValues; i++) {
-            data = (char)input->Get(i)->NumberValue();
+            data[0] = (char)input->Get(i)->NumberValue();
           if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
          }	
         //printf("Value: %d", (int)input->Get(i)->NumberValue());
@@ -202,7 +210,7 @@ void Init(Handle<Object> exports) {
     dev->devfd = open(path, O_RDWR);
 
     char length = 1;
-    msg.tx_buf = (unsigned long) &data;
+    msg.tx_buf = (unsigned long) data;
     msg.rx_buf = 0;
     msg.speed_hz = 7000000;
     msg.bits_per_word = 8;
