@@ -124,6 +124,17 @@ void Write(const FunctionCallbackInfo<Value>& args) {
         //printf("Number of array elements: %d\n",numValues);
     
     msg.rx_buf = 0; // Block SPI from reading anything.
+    if(numValues > 2)
+    {
+        data[0]=0x00;
+        msg.len=1;
+        for (unsigned int i = 0; i < numValues; i++) {
+            if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
+             }	
+        }
+    }
+    else
+    {
     msg.len = 32;
     for (unsigned int i = 0; i < numValues; i++) {
             
@@ -141,6 +152,7 @@ void Write(const FunctionCallbackInfo<Value>& args) {
          if (ioctl(dev->devfd, SPI_IOC_MESSAGE(1), &msg) < 0) {
          }	
          counter=0;
+    }
     }
         args.GetReturnValue().Set(true);
 
